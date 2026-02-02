@@ -2,15 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { 
   ShoppingBag, Heart, Droplets, Leaf, ShieldCheck, 
   ChevronLeft, ChevronRight, Info, Award, Sprout, 
-  ChefHat, Truck, Star 
+  ChefHat, Truck, Star, MessageCircle, ArrowRight 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const OilHero = () => {
-  // --- STATE: Open by default ---
   const [showDetails, setShowDetails] = useState(true);
 
-  // --- CONFIGURATION: 7 Local Oil Images ---
+  // --- 1. GENERAL INQUIRY (Main Button) ---
+  const handleWhatsAppInquiry = () => {
+    const phoneNumber = "916355288823";
+    // Message: "Namaste, I want information about Vadhiyar Pure Oil."
+    const message = encodeURIComponent("નમસ્તે, મારે વઢિયાર પ્યોર સીંગતેલ વિશે માહિતી જોઈએ છે.");
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
+
+  // --- 2. SPECIFIC 15L TIN BUY (Floating Card Button) ---
+  const handleBuy15L = () => {
+    const phoneNumber = "916355288823";
+    // Message: "I want to buy 15L Tin (2750). Details?"
+    const message = encodeURIComponent("નમસ્તે, મારે 15 લિટર સીંગતેલનો ડબ્બો (₹2750) ખરીદવો છે. અવેલેબિલિટી અને ડિલિવરી ટાઈમ જણાવશો?");
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
+
   const productSlides = [
     { id: 1, type: 'image', src: '/image/oil/1.png', tag: '100% PURE' },
     { id: 2, type: 'image', src: '/image/oil/2.png', tag: 'PREMIUM QUALITY' },
@@ -21,7 +35,6 @@ const OilHero = () => {
     { id: 7, type: 'image', src: '/image/oil/7.png', tag: 'BEST CHOICE' },
   ];
 
-  // --- LOGIC: Slideshow Timer ---
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -36,7 +49,6 @@ const OilHero = () => {
 
   const currentSlide = productSlides[currentIndex];
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.1 } }
@@ -50,7 +62,7 @@ const OilHero = () => {
   return (
     <section className="relative pt-28 pb-16 lg:pt-40 lg:pb-24 overflow-hidden bg-gradient-to-br from-yellow-50 via-white to-green-50">
       
-      {/* Background Elements (Golden Drops) */}
+      {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-yellow-400/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-[0%] left-[-10%] w-[40%] h-[40%] bg-green-400/10 rounded-full blur-3xl"></div>
@@ -98,7 +110,7 @@ const OilHero = () => {
             >
               ૧૦૦% શુદ્ધ, કેમિકલ રહિત અને પરંપરાગત પદ્ધતિથી બનાવેલું 
               <span className="inline-block bg-green-100 text-green-900 px-2 py-0.5 mx-1.5 rounded border-b-2 border-green-300">
-                હેલ્ધી મગફળી તેલ
+                હેલ્ધી ગ્રાઉન્ડનટ ઓઈલ
               </span>
               તમારા પરિવારના હૃદય માટે શ્રેષ્ઠ.
             </motion.p>
@@ -110,9 +122,12 @@ const OilHero = () => {
               transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4 pt-2"
             >
-              <button className="flex items-center justify-center gap-2 bg-yellow-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-yellow-700 hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg shadow-yellow-600/20">
-                <ShoppingBag className="w-5 h-5" />
-                ઓર્ડર કરો
+              <button 
+                onClick={handleWhatsAppInquiry}
+                className="flex items-center justify-center gap-2 bg-yellow-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-yellow-700 hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg shadow-yellow-600/20"
+              >
+                <MessageCircle className="w-5 h-5" />
+                વોટ્સએપ પર માહિતી લો
               </button>
 
               <button 
@@ -175,8 +190,7 @@ const OilHero = () => {
 
           {/* --- RIGHT SIDE: Slideshow Phone --- */}
           <div className="relative flex justify-center lg:justify-end mt-4 lg:mt-0">
-            {/* CONTAINER: Added bg-black to make letterboxed images look professional */}
-            <div className="relative w-full max-w-[360px] aspect-[9/16] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-white ring-1 ring-slate-900/5 bg-black">
+            <div className="relative w-full max-w-[360px] aspect-[9/16] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-white ring-1 ring-slate-900/5 bg-amber-950">
               
               <AnimatePresence mode='wait'>
                 <motion.div 
@@ -187,17 +201,14 @@ const OilHero = () => {
                   transition={{ duration: 0.6 }}
                   className="w-full h-full relative flex items-center justify-center"
                 >
-                  {/* CHANGED TO object-contain to show FULL IMAGE */}
                   <motion.img 
                     src={currentSlide.src} 
                     alt="Oil Product" 
                     initial={{ scale: 1 }}
-                    animate={{ scale: 1 }} // Removed zoom so text remains readable
+                    animate={{ scale: 1 }}
                     className="w-full h-full object-contain"
                   />
                   
-                  {/* Removed Overlay Gradient so text is clear */}
-
                   {/* Brand Badge */}
                   <div className="absolute top-6 left-0 right-0 flex justify-center z-10 pointer-events-none">
                     <div className="bg-yellow-500/90 backdrop-blur-md text-amber-950 px-4 py-1.5 rounded-full flex items-center gap-2 shadow-lg border border-yellow-400/50">
@@ -206,9 +217,8 @@ const OilHero = () => {
                     </div>
                   </div>
 
-                  {/* Bottom Info - Kept minimal to not block image text */}
+                  {/* Visual Tags (Bottom) */}
                   <div className="absolute bottom-16 left-6 right-6 pointer-events-none">
-                    {/* Visual Indicator of Packaging - Small tags at bottom */}
                     <div className="flex justify-center gap-2 opacity-80">
                        <span className="bg-black/50 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold text-white border border-white/20">15KG</span>
                        <span className="bg-black/50 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold text-white border border-white/20">5L</span>
@@ -218,11 +228,11 @@ const OilHero = () => {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation Controls */}
-              <button onClick={prevSlide} className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/30 backdrop-blur text-white transition-all border border-white/10 z-20">
+              {/* Controls */}
+              <button onClick={prevSlide} className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur text-white transition-all border border-white/10 z-20">
                 <ChevronLeft className="w-6 h-6" />
               </button>
-              <button onClick={nextSlide} className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/30 backdrop-blur text-white transition-all border border-white/10 z-20">
+              <button onClick={nextSlide} className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur text-white transition-all border border-white/10 z-20">
                 <ChevronRight className="w-6 h-6" />
               </button>
 
@@ -233,12 +243,38 @@ const OilHero = () => {
                 ))}
               </div>
 
+              {/* --- FLOATING "BEST SELLER" CARD --- */}
+              <motion.div 
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1, duration: 0.5 }}
+                className="absolute bottom-16 left-4 right-4 bg-white/95 backdrop-blur-lg p-3 rounded-2xl shadow-2xl border border-white/50 flex items-center gap-4 z-30"
+              >
+                <div className="w-14 h-16 bg-yellow-50 rounded-xl border border-yellow-100 p-1 flex items-center justify-center shrink-0">
+                  <img src="/image/oil/1.png" alt="15L Tin" className="w-full h-full object-contain" />
+                </div>
+                <div className="flex-1 min-w-0">
+                   <div className="flex items-center gap-2 mb-0.5">
+                     <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase">Hot Deal</span>
+                     <p className="text-xs text-slate-500 font-bold uppercase truncate">15 Liter Tin</p>
+                   </div>
+                   <div className="flex items-baseline gap-1">
+                      <span className="text-lg font-extrabold text-slate-900">₹2750</span>
+                   </div>
+                </div>
+                <button 
+                  onClick={handleBuy15L}
+                  className="bg-slate-900 text-white p-3 rounded-xl hover:bg-slate-800 active:scale-95 transition-all shadow-lg shadow-slate-900/20"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </motion.div>
+
             </div>
 
-            {/* Background Blob behind Phone */}
+            {/* Background Blob */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[80%] bg-amber-400/20 blur-3xl rounded-full -z-10"></div>
           </div>
-
         </div>
       </div>
     </section>

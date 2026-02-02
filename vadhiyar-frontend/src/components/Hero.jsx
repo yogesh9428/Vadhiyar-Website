@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Phone, Sun, ShieldCheck, MapPin, ChevronLeft, ChevronRight, 
-  Info, Zap, IndianRupee, Clock, CheckCircle 
+  Info, Zap, IndianRupee, Clock, CheckCircle, MessageCircle, Calendar, ArrowRight 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Hero = () => {
-  // --- STATE: Open by default ---
   const [showDetails, setShowDetails] = useState(true);
 
-  // --- CONFIGURATION: 13 Total Slides ---
+  // --- 1. GENERAL INQUIRY (Main Button) ---
+  const handleWhatsAppInquiry = () => {
+    const phoneNumber = "916355288823";
+    // Message: "Namaste, I want to talk about Vadhiyar Solar."
+    const message = encodeURIComponent("નમસ્તે, હું વઢિયાર સોલાર વિશે વાત કરવા માંગુ છું.");
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
+
+  // --- 2. BOOK VISIT (Floating Card Button) ---
+  const handleBookVisit = () => {
+    const phoneNumber = "916355288823";
+    // Message: "Namaste, I want to book a Solar Site Visit."
+    const message = encodeURIComponent("નમસ્તે, મારે સોલાર માટે સાઈટ વિઝિટ (Appointment) બુક કરવી છે. ");
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
+
   const successStories = [
-    // --- VIDEOS ---
     { id: 1, type: 'video', src: '/videos/solar/v-1 (1).mp4' },
     { id: 2, type: 'video', src: '/videos/solar/v-1 (2).mp4' },
-
-    // --- IMAGES ---
     { id: 3, type: 'image', src: '/image/solar/1.jpeg' },
     { id: 4, type: 'image', src: '/image/solar/2.jpeg' },
     { id: 5, type: 'image', src: '/image/solar/3.jpeg' },
@@ -29,7 +40,6 @@ const Hero = () => {
     { id: 13, type: 'image', src: '/image/solar/11.png' },
   ];
 
-  // --- LOGIC: Slideshow Timer ---
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -44,7 +54,6 @@ const Hero = () => {
 
   const currentStory = successStories[currentIndex];
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.1 } }
@@ -118,9 +127,13 @@ const Hero = () => {
               transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4 pt-2"
             >
-              <button className="flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg shadow-slate-900/20">
-                <Phone className="w-5 h-5" />
-                81606 44596
+              {/* WHATSAPP INQUIRY BUTTON */}
+              <button 
+                onClick={handleWhatsAppInquiry}
+                className="flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-700 hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg shadow-green-600/20"
+              >
+                <MessageCircle className="w-5 h-5" />
+                વોટ્સએપ પર માહિતી લો
               </button>
 
               <button 
@@ -197,24 +210,19 @@ const Hero = () => {
                   {currentStory.type === 'video' ? (
                     <video 
                       autoPlay loop muted playsInline 
-                      // Videos usually should fill the screen, so keep object-cover for video
-                      // If videos also have text at edges, change this to object-contain
                       className="w-full h-full object-cover"
                     >
                       <source src={currentStory.src} type="video/mp4" />
                     </video>
                   ) : (
-                    // IMAGES: Changed to object-contain so NO TEXT IS CUT OFF
                     <motion.img 
                       src={currentStory.src} 
                       alt="Solar Project" 
                       initial={{ scale: 1 }}
-                      animate={{ scale: 1 }} // Removed zoom so text stays stable
+                      animate={{ scale: 1 }}
                       className="w-full h-full object-contain"
                     />
                   )}
-                  
-                  {/* Removed Overlay Gradient so text is clear */}
                   
                   {/* Success Badge */}
                   <div className="absolute top-6 left-0 right-0 flex justify-center z-10 pointer-events-none">
@@ -227,7 +235,7 @@ const Hero = () => {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation Controls */}
+              {/* Controls */}
               <button onClick={prevSlide} className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/30 backdrop-blur text-white transition-all border border-white/10 z-20">
                 <ChevronLeft className="w-6 h-6" />
               </button>
@@ -242,12 +250,38 @@ const Hero = () => {
                 ))}
               </div>
 
-            </div>
+              {/* --- FLOATING "BOOK VISIT" CARD --- */}
+              <motion.div 
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1, duration: 0.5 }}
+                className="absolute bottom-16 left-4 right-4 bg-white/95 backdrop-blur-lg p-3 rounded-2xl shadow-2xl border border-white/50 flex items-center gap-4 z-30"
+              >
+                <div className="w-14 h-16 bg-blue-50 rounded-xl border border-blue-100 p-1 flex items-center justify-center shrink-0">
+                   {/* Using a generic solar image for the 'service' card */}
+                   <img src="/image/solar/7.png" alt="Service" className="w-full h-full object-contain" />
+                </div>
+                <div className="flex-1 min-w-0">
+                   <div className="flex items-center gap-2 mb-0.5">
+                     <span className="bg-orange-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase">Service</span>
+                     <p className="text-xs text-slate-500 font-bold uppercase truncate">Site Survey</p>
+                   </div>
+                   <div className="flex items-baseline gap-1">
+                      <span className="text-lg font-extrabold text-slate-900">Book Visit</span>
+                   </div>
+                </div>
+                <button 
+                  onClick={handleBookVisit}
+                  className="bg-slate-900 text-white p-3 rounded-xl hover:bg-slate-800 active:scale-95 transition-all shadow-lg shadow-slate-900/20"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </motion.div>
 
-            {/* Background Blob behind Phone */}
+            </div>
+            {/* Background Blob */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[80%] bg-orange-400/20 blur-3xl rounded-full -z-10"></div>
           </div>
-
         </div>
       </div>
     </section>
